@@ -5,7 +5,24 @@ Dumps all received CAN messages via serial port.
 Example:
 
 ```
-_32791ms_ (5057ms since previous) CAN message received: [CANID = 1337]: 0x07 0x08 0x09
+.______    __    __       ___           _______.                             
+|   _  \  |  |  |  |     /   \         /       |                             
+|  |_)  | |  |__|  |    /  ^  \       |   (----`                             
+|   _  <  |   __   |   /  /_\  \       \   \                                 
+|  |_)  | |  |  |  |  /  _____  \  .----)   |                                
+|______/  |__|  |__| /__/     \__\ |_______/                                 
+                                                                             
+  ______     ___      .__   __.     _______   __    __  .___  ___. .______   
+ /      |   /   \     |  \ |  |    |       \ |  |  |  | |   \/   | |   _  \  
+|  ,----'  /  ^  \    |   \|  |    |  .--.  ||  |  |  | |  \  /  | |  |_)  | 
+|  |      /  /_\  \   |  . `  |    |  |  |  ||  |  |  | |  |\/|  | |   ___/  
+|  `----./  _____  \  |  |\   |    |  '--'  ||  `--'  | |  |  |  | |  |      
+ \______/__/     \__\ |__| \__|    |_______/  \______/  |__|  |__| | _|      
+
+----------------------------------------------------------------------------------
+
+_5900ms_ (5899ms since previous) CAN message received: [CANID = 1337]: 0x01 0x02 0x03 
+_10957ms_ (5057ms since previous) CAN message received: [CANID = 1337]: 0x02 0x03 0x04
 ```
 
 There is currently no message parsing or what ever implemented. Pure message dump.

@@ -41,7 +41,26 @@ void can_listener() {
 
 int main() {
   ThisThread::sleep_for(5s);
-  printf("Starting CAN dump ...\r\n");
+
+  printf(".______    __    __       ___           _______.                             \r\n");
+  printf("|   _  \\  |  |  |  |     /   \\         /       |                             \r\n");
+  printf("|  |_)  | |  |__|  |    /  ^  \\       |   (----`                             \r\n");
+  printf("|   _  <  |   __   |   /  /_\\  \\       \\   \\                                 \r\n");
+  printf("|  |_)  | |  |  |  |  /  _____  \\  .----)   |                                \r\n");
+  printf("|______/  |__|  |__| /__/     \\__\\ |_______/                                 \r\n");
+  printf("                                                                             \r\n");
+  printf("  ______     ___      .__   __.     _______   __    __  .___  ___. .______   \r\n");
+  printf(" /      |   /   \\     |  \\ |  |    |       \\ |  |  |  | |   \\/   | |   _  \\  \r\n");
+  printf("|  ,----'  /  ^  \\    |   \\|  |    |  .--.  ||  |  |  | |  \\  /  | |  |_)  | \r\n");
+  printf("|  |      /  /_\\  \\   |  . `  |    |  |  |  ||  |  |  | |  |\\/|  | |   ___/  \r\n");
+  printf("|  `----./  _____  \\  |  |\\   |    |  '--'  ||  `--'  | |  |  |  | |  |      \r\n");
+  printf(" \\______/__/     \\__\\ |__| \\__|    |_______/  \\______/  |__|  |__| | _|      \r\n");
+  printf("\r\n");
+  printf("----------------------------------------------------------------------------------\r\n");
+  printf("\r\n");
+  // https://patorjk.com/software/taag
+  // Font Name: Star Wars
+
   timer.start();
 
   listenerThread.start(can_listener);
