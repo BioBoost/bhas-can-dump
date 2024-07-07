@@ -1,12 +1,9 @@
 #if !DEVICE_CAN
-#error [NOT_SUPPORTED] CAN is not supported for this target
+#error [NOT_SUPPORTED] CAN not supported for this target
 #endif
 
 #include "mbed.h"
 #include "InterfaceCAN.h"
-
-DigitalOut activity(LED1);
-DigitalOut alive(LED2);
 
 #if defined(TARGET_LPC1768)
   CAN canBus(p30, p29);     // RD, TX => LPC
@@ -16,27 +13,39 @@ DigitalOut alive(LED2);
 
 Timer timer;
 std::chrono::microseconds previousTime;
-char buffer[64] = {};
 
 void can_receive() {
   CANMessage msg;
 
-  activity = false;
   if (canBus.read(msg)) {
-    unsigned int offset = 0;
-    for (unsigned int i = 0; i < msg.len; i++) {
-      offset += sprintf(buffer+offset, "0x%02x ", msg.data[i]);
+    if (msg.len < 3) {
+      printf("[ERROR] Received invalid CAN message\r\n");
+      return;
     }
 
     auto now = timer.elapsed_time();
-    printf("_%llums_ (%llums since previous) CAN message received: [CANID = %d]: %s\r\n",
+    
+    printf("\r\n_%llums_ (%llums since previous) CAN message received [length = %d bytes]:\r\n",
         std::chrono::duration_cast<std::chrono::milliseconds>(now).count(),
         std::chrono::duration_cast<std::chrono::milliseconds>(now - previousTime).count(),
-        msg.id, buffer
+        msg.len
       );
-    
+    printf("-----------------------------------------------------------------------------------------------\r\n");
+    printf("| DESTINATION ID | SOURCE ID | ENTITY ID | BASE_TYPE | SUB_TYPE | DATA (%d bytes)\r\n", (msg.len-3));
+    printf("|      %3d       |   %3d     |   %3d     |    0x%02x   |   0x%02x   |",
+      msg.id,
+      msg.data[0],
+      msg.data[1],
+      ((msg.data[2] >> 4)&0x0F),
+      ((msg.data[2])&0x0F)
+    );
+    for (int i = 0; i < (msg.len-3); i++) {
+      printf(" 0x%02x ", msg.data[3+i]);
+    }
+    printf("\r\n");
+    printf("-----------------------------------------------------------------------------------------------\r\n");
+
     previousTime = now;
-    activity = true;
   }
 }
 
@@ -45,19 +54,28 @@ int main() {
 
   ThisThread::sleep_for(5s);
 
-  printf(".______    __    __       ___           _______.                             \r\n");
-  printf("|   _  \\  |  |  |  |     /   \\         /       |                             \r\n");
-  printf("|  |_)  | |  |__|  |    /  ^  \\       |   (----`                             \r\n");
-  printf("|   _  <  |   __   |   /  /_\\  \\       \\   \\                                 \r\n");
-  printf("|  |_)  | |  |  |  |  /  _____  \\  .----)   |                                \r\n");
-  printf("|______/  |__|  |__| /__/     \\__\\ |_______/                                 \r\n");
-  printf("                                                                             \r\n");
-  printf("  ______     ___      .__   __.     _______   __    __  .___  ___. .______   \r\n");
-  printf(" /      |   /   \\     |  \\ |  |    |       \\ |  |  |  | |   \\/   | |   _  \\  \r\n");
-  printf("|  ,----'  /  ^  \\    |   \\|  |    |  .--.  ||  |  |  | |  \\  /  | |  |_)  | \r\n");
-  printf("|  |      /  /_\\  \\   |  . `  |    |  |  |  ||  |  |  | |  |\\/|  | |   ___/  \r\n");
-  printf("|  `----./  _____  \\  |  |\\   |    |  '--'  ||  `--'  | |  |  |  | |  |      \r\n");
-  printf(" \\______/__/     \\__\\ |__| \\__|    |_______/  \\______/  |__|  |__| | _|      \r\n");
+  printf("----------------------------------------------------------------------------------\r\n");
+  printf("\r\n");
+  printf(".______    __    __       ___           _______.\r\n");
+  printf("|   _  \\  |  |  |  |     /   \\         /       |\r\n");
+  printf("|  |_)  | |  |__|  |    /  ^  \\       |   (----`\r\n");
+  printf("|   _  <  |   __   |   /  /_\\  \\       \\   \\    \r\n");
+  printf("|  |_)  | |  |  |  |  /  _____  \\  .----)   |   \r\n");
+  printf("|______/  |__|  |__| /__/     \\__\\ |_______/    \r\n");
+  printf("                                                \r\n");
+  printf("  ______     ___      .__   __.                 \r\n");
+  printf(" /      |   /   \\     |  \\ |  |                 \r\n");
+  printf("|  ,----'  /  ^  \\    |   \\|  |                 \r\n");
+  printf("|  |      /  /_\\  \\   |  . `  |                 \r\n");
+  printf("|  `----./  _____  \\  |  |\\   |                 \r\n");
+  printf(" \\______/__/     \\__\\ |__| \\__|                 \r\n");
+  printf("                                                \r\n");
+  printf(" _______   __    __  .___  ___. .______         \r\n");
+  printf("|       \\ |  |  |  | |   \\/   | |   _  \\        \r\n");
+  printf("|  .--.  ||  |  |  | |  \\  /  | |  |_)  |       \r\n");
+  printf("|  |  |  ||  |  |  | |  |\\/|  | |   ___/        \r\n");
+  printf("|  '--'  ||  `--'  | |  |  |  | |  |            \r\n");
+  printf("|_______/  \\______/  |__|  |__| | _|            \r\n");
   printf("\r\n");
   printf("----------------------------------------------------------------------------------\r\n");
   printf("\r\n");
