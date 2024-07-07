@@ -21,10 +21,25 @@ Example:
 
 ----------------------------------------------------------------------------------
 
-_5900ms_ (5899ms since previous) CAN message received: [CANID = 1337]: 0x01 0x02 0x03 
-_10957ms_ (5057ms since previous) CAN message received: [CANID = 1337]: 0x02 0x03 0x04
+_1499206ms_ (10029ms since previous) CAN message received [length = 7 bytes]:
+-----------------------------------------------------------------------------------------------
+| DESTINATION ID | SOURCE ID | ENTITY ID | BASE_TYPE | SUB_TYPE | DATA (4 bytes)
+|        0       |     1     |     1     |    0x01   |   0x01   | 0x00  0x00  0x00  0xa0 
+-----------------------------------------------------------------------------------------------
+
+_1509236ms_ (10029ms since previous) CAN message received [length = 7 bytes]:
+-----------------------------------------------------------------------------------------------
+| DESTINATION ID | SOURCE ID | ENTITY ID | BASE_TYPE | SUB_TYPE | DATA (4 bytes)
+|        0       |     1     |     1     |    0x01   |   0x01   | 0x00  0x00  0x00  0xaa 
+-----------------------------------------------------------------------------------------------
+
+_1519266ms_ (10029ms since previous) CAN message received [length = 7 bytes]:
+-----------------------------------------------------------------------------------------------
+| DESTINATION ID | SOURCE ID | ENTITY ID | BASE_TYPE | SUB_TYPE | DATA (4 bytes)
+|        0       |     1     |     1     |    0x01   |   0x01   | 0x00  0x00  0x00  0xb4 
+-----------------------------------------------------------------------------------------------
 ```
 
-There is currently no message parsing or what ever implemented. Pure message dump.
+There is currently only basic message parsing.
 
 This little firmware is part of Bio Home Automator System - BHAS (pronounced BeeHas) and is designed for the LPC1768.
